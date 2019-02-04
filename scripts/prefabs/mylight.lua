@@ -5,13 +5,14 @@ local assets =
 	Asset("ANIM", "anim/mylight.zip"),
 }
 
-local PlayerFarDist = 15
-
 local name = "Light"
 
 local folder = KnownModIndex:GetModActualName(name)
 
 local Efficient = GetModConfigData("Efficient", folder)
+local TriggerRange = tonumber(GetModConfigData("TriggerRange", folder))
+
+local PlayerFarDist = 15 * TriggerRange
 
 local function onworkfinished(inst)
     inst.components.lootdropper:DropLoot()
@@ -96,7 +97,7 @@ local function fn(Sim)
 	local light = inst.entity:AddLight()
     light:SetFalloff(1)
     light:SetIntensity(.8)
-    light:SetRadius(10)
+    light:SetRadius(10 * TriggerRange)
     light:SetColour(255/85, 255/85, 255/85)
 	light:Enable(false)
 

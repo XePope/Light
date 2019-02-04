@@ -1,7 +1,7 @@
 --The name of the mod displayed in the 'mods' screen.
 name = "Light"
 --A version number so you can ask people if they are running an old version of your mod.
-version = "0.1.0"
+version = "0.10.0"
 
 --A description of the mod.
 description = "圣灯，靠近自动点燃、远离自动灭，不想要时用锤子砸毁即可！"
@@ -25,7 +25,7 @@ all_clients_require_mod = true
 client_only_mod = false
 
 --This lets people search for servers with this mod by these tags
-server_filter_tags = {"圣灯","Light"}
+server_filter_tags = {"圣灯","Light","hewei"}
 
 icon_atlas = "icon.xml"
 icon = "icon.tex"
@@ -57,6 +57,17 @@ configuration_options =
 				{description = chinese and "否" or "No", data = "No"},
 			},
 		default = "Yes",
+	},
+	{
+		name = "TriggerRange",
+		label = chinese and "触发距离" or "TriggerRange",
+		options =
+			{
+				{description = chinese and "普通" or "Normal", data = "1"},
+				{description = chinese and "大" or "Large", data = "2"},
+				{description = chinese and "超大" or "Huge", data = "3"},
+			},
+		default = "1",
 	},
 	{
 		name = "Language",
