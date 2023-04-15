@@ -13,11 +13,6 @@ PrefabFiles = {
 	"mylight",
 }
 
-Assets={
-	Asset("IMAGE", "images/inventoryimages/mylight.tex"),
-	Asset("ATLAS", "images/inventoryimages/mylight.xml"),
-}
-
 if Language == 'Cn' then
 	STRINGS.NAMES.MYLIGHT = "电灯"
 	STRINGS.RECIPE_DESC.MYLIGHT = "点亮夜空."
@@ -36,6 +31,5 @@ elseif Craft == 'Normal' then
 else
 	makings = { Ingredient("dragon_scales", 1), Ingredient("transistor", 2), Ingredient("lightninggoathorn", 1) }
 end
-local light = _G.Recipe("mylight", makings, RECIPETABS.LIGHT, TECH.SCIENCE_TWO, "mylight_placer")
-AddPrefabPostInit("images/inventoryimages/mylight.tex")
-light.atlas = "images/inventoryimages/mylight.xml"
+
+AddRecipe2( "mylight", makings, TECH.NONE, { image = "mylight.tex", atlas = "images/inventoryimages/mylight.xml", placer="mylight_placer"}, {"PROTOTYPERS","LIGHT","DECOR"})

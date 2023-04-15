@@ -3,6 +3,8 @@ require "prefabutil"
 local assets =
 {
 	Asset("ANIM", "anim/mylight.zip"),
+	Asset("IMAGE", "images/inventoryimages/mylight.tex"),
+	Asset("ATLAS", "images/inventoryimages/mylight.xml"),
 }
 
 local name = "Light"
@@ -15,11 +17,11 @@ local TriggerRange = tonumber(GetModConfigData("TriggerRange", folder))
 local PlayerFarDist = 15 * TriggerRange
 
 local function onworkfinished(inst)
-    inst.components.lootdropper:DropLoot()
-    local fx = SpawnPrefab("collapse_small")
-    fx.Transform:SetPosition(inst.Transform:GetWorldPosition())
-    fx:SetMaterial("wood")
-    inst:Remove()
+	inst.components.lootdropper:DropLoot()
+	local fx = SpawnPrefab("collapse_small")
+	fx.Transform:SetPosition(inst.Transform:GetWorldPosition())
+	fx:SetMaterial("wood")
+	inst:Remove()
 end
 
 
@@ -95,18 +97,18 @@ local function fn(Sim)
 	MakeObstaclePhysics(inst, .1) -- 物理障碍
 
 	local light = inst.entity:AddLight()
-    light:SetFalloff(1)
-    light:SetIntensity(.8)
-    light:SetRadius(10 * TriggerRange)
-    light:SetColour(255/85, 255/85, 255/85)
+	light:SetFalloff(1)
+	light:SetIntensity(.8)
+	light:SetRadius(10 * TriggerRange)
+	light:SetColour(255/85, 255/85, 255/85)
 	light:Enable(false)
 
 	inst:AddTag("structure")
+
 	inst.AnimState:SetBank("mylight")
 	inst.AnimState:SetBuild("mylight")
 	inst.AnimState:PlayAnimation("place")
 
-	--MakeSnowCoveredPristine(inst)
 	inst.entity:SetPristine()
 
 	if not TheWorld.ismastersim then
@@ -114,7 +116,7 @@ local function fn(Sim)
 	end
 
 	inst:AddComponent("inspectable")
-	
+
 	-- 设置掉落
 	inst:AddComponent("lootdropper")
 
@@ -123,16 +125,15 @@ local function fn(Sim)
 	inst.components.workable:SetWorkLeft(4)
 	inst.components.workable:SetOnFinishCallback(onworkfinished)
 	inst.components.workable:SetOnWorkCallback(onhit)
-	-- AddHauntableDropItemOrWork(inst)
 
 	-- 启用玩家靠近触发
 	inst.count_player = 0
 	inst:AddComponent("playerprox")
 	inst.components.playerprox:SetDist(5, PlayerFarDist)
-    inst.components.playerprox:SetOnPlayerNear(player_increment)
+	inst.components.playerprox:SetOnPlayerNear(player_increment)
 	inst.components.playerprox:SetOnPlayerFar(player_decrement)
 
-    inst:ListenForEvent("onbuilt", onbuilt)
+	inst:ListenForEvent("onbuilt", onbuilt)
 
 	-- 启用智能灯
 	inst:ListenForEvent("clocktick", function() onoccupiedlighttask(inst) end, TheWorld)
@@ -140,13 +141,8 @@ local function fn(Sim)
 	-- 让鬼魂也生效
 	MakeHauntableWork(inst)
 
-	--MakeSnowCovered(inst)
-    --MakeSmallBurnable(inst, nil, nil, true)
-    --MakeMediumPropagator(inst)
-
 	return inst
 end
 
-
-return Prefab( "mylight", fn, assets, prefabs),
+return Prefab( "mylight", fn, assets),
 	MakePlacer("mylight_placer", "mylight", "mylight", "place")
